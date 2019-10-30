@@ -334,7 +334,7 @@ public class SchemaTest {
         // Save schema
         createdSchema.save(createdFile.getAbsolutePath());
         
-        Schema readSchema = new Schema(createdFile.getAbsolutePath(), true);
+        Schema readSchema = new Schema(createdFile, true);
         
         // Assert id field
         Assert.assertEquals(Field.FIELD_TYPE_INTEGER, readSchema.getField("id").getType());
@@ -370,7 +370,7 @@ public class SchemaTest {
         // Save schema
         createdSchema.save(createdFile.getAbsolutePath());
         
-        Schema readSchema = new Schema(createdFile.getAbsolutePath(), true);
+        Schema readSchema = new Schema(createdFile, true);
         
         // Assert Primary Key
         Assert.assertEquals("id", readSchema.getPrimaryKey());
@@ -396,7 +396,7 @@ public class SchemaTest {
         // Save schema
         createdSchema.save(createdFile.getAbsolutePath());
         
-        Schema readSchema = new Schema(createdFile.getAbsolutePath(), true);
+        Schema readSchema = new Schema(createdFile, true);
         
         // Assert Foreign Keys
         Assert.assertEquals("fkName", readSchema.getForeignKeys().get(0).getFields());

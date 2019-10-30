@@ -12,13 +12,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Interface for a source of tabular data.
  */
 public interface DataSource {  
     public Iterator<String[]> iterator() throws Exception;
     public String[] getHeaders() throws Exception;
     public List<String[]> data() throws Exception;
-    public void write(String outputFilePath) throws Exception;
+
+    /**
+     * Write to native format
+     * @param outputFile the File to write to
+     * @throws Exception thrown if write operation fails
+     */
+    public void write(File outputFile) throws Exception;
+
+    /**
+     * Write as RFC 4180 CSV file
+     * @param outputFile the File to write to
+     * @throws Exception thrown if write operation fails
+     */
+    void writeCsv(File outputFile) throws Exception;
 
     /**
      * Factory method to instantiate either a JsonArrayDataSource or a

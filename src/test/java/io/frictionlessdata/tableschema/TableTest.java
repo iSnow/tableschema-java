@@ -345,7 +345,7 @@ public class TableTest {
         File file = new File(sourceFileAbsPath);
         Table loadedTable = new Table(file);
         
-        loadedTable.save(createdFile.getAbsolutePath());
+        loadedTable.save(createdFile);
         
         Table readTable = new Table(createdFile);
         Assert.assertEquals("id", readTable.getHeaders()[0]);

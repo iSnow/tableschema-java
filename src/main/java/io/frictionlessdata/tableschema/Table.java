@@ -91,8 +91,8 @@ public class Table{
         return this.dataSource.getHeaders();
     }
     
-    public void save(String outputFilePath) throws Exception{
-       this.dataSource.write(outputFilePath);
+    public void save(File outputFile) throws Exception{
+       this.dataSource.writeCsv(outputFile);
     }
     public List<Object[]> read(boolean cast) throws Exception{
         if(cast && !this.schema.hasFields()){

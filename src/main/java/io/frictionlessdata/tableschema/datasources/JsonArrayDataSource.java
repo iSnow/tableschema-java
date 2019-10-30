@@ -89,23 +89,23 @@ public class JsonArrayDataSource extends AbstractDataSource {
     }
 
     @Override
-    public void write(String outputFilePath) throws Exception{            
-       try(Writer out = new BufferedWriter(new FileWriter(outputFilePath));
-               CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.RFC4180)) {
-            
-            if(this.getHeaders() != null){
-                csvPrinter.printRecord((Object[])this.getHeaders());
+    public void write(File outputFile) throws Exception {
+        try (Writer out = new BufferedWriter(new FileWriter(outputFile));
+             CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.RFC4180)) {
+
+            if (this.getHeaders() != null) {
+                csvPrinter.printRecord((Object[]) this.getHeaders());
             }
 
-           for (CSVRecord record : this.getCSVParser()) {
-               csvPrinter.printRecord(record);
-           }
-            
+            for (CSVRecord record : this.getCSVParser()) {
+                csvPrinter.printRecord(record);
+            }
+
             csvPrinter.flush();
-                
-       }catch(Exception e){
+
+        } catch (Exception e) {
             throw e;
-       }
+        }
     }
     
     @Override

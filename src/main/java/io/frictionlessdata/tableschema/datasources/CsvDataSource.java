@@ -87,26 +87,12 @@ public class CsvDataSource extends AbstractDataSource {
         return data;
     }
 
+
     @Override
-    public void write(String outputFilePath) throws Exception {
-        try (Writer out = new BufferedWriter(new FileWriter(outputFilePath));
-             CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.RFC4180)) {
-
-            if (this.getHeaders() != null) {
-                csvPrinter.printRecord((Object[]) this.getHeaders());
-            }
-
-            for (CSVRecord record : this.getCSVParser()) {
-                csvPrinter.printRecord(record);
-            }
-
-            csvPrinter.flush();
-
-        } catch (Exception e) {
-            throw e;
-        }
+    public void write(File outputFile) throws Exception {
+        this.writeCsv(outputFile);
     }
-    
+
     @Override
     public String[] getHeaders() throws Exception{
         try{
