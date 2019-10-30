@@ -14,6 +14,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class DataSourceTest {
@@ -35,6 +36,11 @@ public class DataSourceTest {
             "}" +
             "]";
 
+    private final String[] jsonHeaders = new String[]{
+            "city", "year", "population"
+    };
+
+
     @Test
     public void testCreateJsonArrayDataSource() throws Exception{
         DataSource ds = DataSource.createDataSource(jsonString1);
@@ -45,7 +51,7 @@ public class DataSourceTest {
     public void testJsonArrayDataSourceHeaders() throws Exception{
         DataSource ds = DataSource.createDataSource(jsonString1);
         String[] headers = ds.getHeaders();
-        System.out.println(headers);
+        Assert.assertArrayEquals(jsonHeaders, headers);
     }
 
     @Test
