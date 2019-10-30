@@ -6,56 +6,55 @@ import io.frictionlessdata.tableschema.datasources.DataSource;
 import io.frictionlessdata.tableschema.exceptions.InvalidCastException;
 import java.io.File;
 import org.json.*;
+
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * This class represents a CSV table
  * 
  */
 public class Table{
     private DataSource dataSource = null;
     private Schema schema = null;
-    
+
+    /**
+     * Constructor using an {@link java.io.InputStream} for reading both the CSV
+     * data and the table schema.
+     * @param dataSource InputStream for reading the CSV from
+     * @param schema InputStream for reading table schema from
+     * @throws Exception if either reading or parsing throws an Exception
+     */
+    public Table(InputStream dataSource, InputStream schema) throws Exception{
+        this.dataSource = DataSource.createDataSource(dataSource);
+        this.schema = new Schema(schema, true);
+    }
+
     public Table(File dataSource) throws Exception{
         this.dataSource = new CsvDataSource(dataSource);
     }
-    
-    public Table(File dataSource, JSONObject schema) throws Exception{
-        this.dataSource = new CsvDataSource(dataSource);
-        this.schema = new Schema(schema);
-    }
-    
+
     public Table(File dataSource, Schema schema) throws Exception{
         this.dataSource = new CsvDataSource(dataSource);
         this.schema = schema;
     }
     
     public Table(String dataSource) throws Exception{
-        this.dataSource = new CsvDataSource(dataSource);
+        this.dataSource = DataSource.createDataSource(dataSource);
     }
-    
-    public Table(String dataSource, JSONObject schema) throws Exception{
-        this.dataSource = new CsvDataSource(dataSource);
-        this.schema = new Schema(schema);
-    }
-    
+
     public Table(String dataSource, Schema schema) throws Exception{
-        this.dataSource = new CsvDataSource(dataSource);
+        this.dataSource = DataSource.createDataSource(dataSource);
         this.schema = schema;
     }
     
     public Table(URL dataSource) throws Exception{
         this.dataSource = new CsvDataSource(dataSource);
     }
-    
-    public Table(URL dataSource, JSONObject schema) throws Exception{
-        this.dataSource = new CsvDataSource(dataSource);
-        this.schema = new Schema(schema);
-    }
-    
+
     public Table(URL dataSource, Schema schema) throws Exception{
         this.dataSource = new CsvDataSource(dataSource);
         this.schema = schema;
@@ -63,23 +62,11 @@ public class Table{
     
     public Table(URL dataSource, URL schema) throws Exception{
         this.dataSource = new CsvDataSource(dataSource);
-        this.schema = new Schema(schema);
+        this.schema = new Schema(schema, true);
     }
-    
-    public Table(JSONArray dataSource) throws Exception{
-        this.dataSource = new CsvDataSource(dataSource);
-    }
-    
-    public Table(JSONArray dataSource, JSONObject schemaJson) throws Exception{
-        this.dataSource = new CsvDataSource(dataSource);
-        this.schema = new Schema(schemaJson);
-    }
-    
-    public Table(JSONArray dataSource, Schema schema) throws Exception{
-        this.dataSource = new CsvDataSource(dataSource);
-        this.schema = schema;
-    }
-    
+
+
+
     public Iterator iterator() throws Exception{
        return new TableIterator(this);
     }
@@ -130,7 +117,7 @@ public class Table{
     public Schema inferSchema() throws TypeInferringException{
         try{
             JSONObject schemaJson = TypeInferrer.getInstance().infer(this.read(), this.getHeaders());
-            this.schema = new Schema(schemaJson);
+            this.schema = new Schema(schemaJson.toString(), true);
             return this.schema;
             
         }catch(Exception e){
@@ -141,7 +128,7 @@ public class Table{
     public Schema inferSchema(int rowLimit) throws TypeInferringException{
         try{
             JSONObject schemaJson = TypeInferrer.getInstance().infer(this.read(), this.getHeaders(), rowLimit);
-            this.schema = new Schema(schemaJson);
+            this.schema = new Schema(schemaJson.toString(), true);
             return this.schema;
             
         }catch(Exception e){

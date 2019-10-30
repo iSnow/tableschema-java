@@ -174,7 +174,7 @@ public class Field {
                 throw ce;
                 
             }catch(Exception e){
-                throw new InvalidCastException();
+                throw new InvalidCastException(e);
             }
         } 
     }

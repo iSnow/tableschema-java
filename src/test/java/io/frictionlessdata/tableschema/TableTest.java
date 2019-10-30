@@ -70,7 +70,7 @@ public class TableTest {
             "}" +
         "]");
         
-        Table table = new Table(jsonData);
+        Table table = new Table(jsonData.toString());
         Assert.assertEquals(3, table.read().size()); 
     }
     

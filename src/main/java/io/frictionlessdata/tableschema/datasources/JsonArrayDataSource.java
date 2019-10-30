@@ -1,6 +1,13 @@
 package io.frictionlessdata.tableschema.datasources;
 
 import com.google.common.collect.Iterators;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
+import org.json.CDL;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.*;
 import java.net.URL;
@@ -11,39 +18,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.CSVRecord;
-import org.json.CDL;
-import org.json.JSONArray;
-import org.json.JSONException;
-
 /**
  *
  */
-public class CsvDataSource extends AbstractDataSource {
+public class JsonArrayDataSource extends AbstractDataSource {
     private Object dataSource = null;
 
-    CsvDataSource(InputStream inStream) throws IOException{
+    JsonArrayDataSource(InputStream inStream) throws IOException{
         try (InputStreamReader ir = new InputStreamReader(inStream)) {
             try (BufferedReader rdr = new BufferedReader(ir)) {
-                this.dataSource = rdr.lines().collect(Collectors.joining("\n"));
+                String dSource = rdr.lines().collect(Collectors.joining("\n"));
+                this.dataSource = new JSONArray(dSource);
             }
         }
     }
 
-    public CsvDataSource(URL dataSource){
+    public JsonArrayDataSource(URL dataSource){
         this.dataSource = dataSource;
     }
-    
-    public CsvDataSource(File dataSource){
+
+    public JsonArrayDataSource(File dataSource){
         this.dataSource = dataSource;
     }
-    
-    CsvDataSource(String dataSource){
+
+    JsonArrayDataSource(JSONArray dataSource){
         this.dataSource = dataSource;
     }
+
 
     @Override
     public Iterator<String[]> iterator() throws Exception{
@@ -88,23 +89,23 @@ public class CsvDataSource extends AbstractDataSource {
     }
 
     @Override
-    public void write(String outputFilePath) throws Exception {
-        try (Writer out = new BufferedWriter(new FileWriter(outputFilePath));
-             CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.RFC4180)) {
-
-            if (this.getHeaders() != null) {
-                csvPrinter.printRecord((Object[]) this.getHeaders());
+    public void write(String outputFilePath) throws Exception{            
+       try(Writer out = new BufferedWriter(new FileWriter(outputFilePath));
+               CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.RFC4180)) {
+            
+            if(this.getHeaders() != null){
+                csvPrinter.printRecord((Object[])this.getHeaders());
             }
 
-            for (CSVRecord record : this.getCSVParser()) {
-                csvPrinter.printRecord(record);
-            }
-
+           for (CSVRecord record : this.getCSVParser()) {
+               csvPrinter.printRecord(record);
+           }
+            
             csvPrinter.flush();
-
-        } catch (Exception e) {
+                
+       }catch(Exception e){
             throw e;
-        }
+       }
     }
     
     @Override
@@ -162,7 +163,12 @@ public class CsvDataSource extends AbstractDataSource {
         }else if(this.dataSource instanceof URL){
             return CSVParser.parse((URL)this.dataSource, Charset.forName("UTF-8"), CSVFormat.RFC4180.withHeader());
             
-        } else{
+        }else if(this.dataSource instanceof JSONArray){
+            String dataCsv = CDL.toString((JSONArray)this.dataSource);                
+            Reader sr = new StringReader(dataCsv);
+            return CSVParser.parse(sr, CSVFormat.RFC4180.withHeader());
+            
+        }else{
             throw new Exception("Data source is of invalid type.");
         }
     }
