@@ -131,7 +131,7 @@ public class CsvDataSource extends AbstractDataSource {
             Reader sr = new StringReader((String)this.dataSource);
             return CSVParser.parse(sr, CSVFormat.RFC4180.withHeader());
 
-        }else if(this.dataSource instanceof File){
+        } else if(this.dataSource instanceof File){
             // The path value can either be a relative path or a full path.
             // If it's a relative path then build the full path by using the working directory.
             File f = (File)this.dataSource;

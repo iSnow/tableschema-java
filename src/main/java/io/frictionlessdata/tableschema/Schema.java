@@ -13,6 +13,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONArray;
@@ -62,8 +64,7 @@ public class Schema {
     public Schema (InputStream inStream, boolean strict) throws Exception {
         this.strictValidation = strict;
         this.initValidator();
-        InputStreamReader inputStreamReader = new InputStreamReader(inStream, Charset.forName("UTF-8"));
-        initSchemaFromStream(inputStreamReader);
+        initSchemaFromStream(inStream);
 
         this.validate();
     }
@@ -136,21 +137,15 @@ public class Schema {
     
     /**
      * Initializes the schema from given stream.
-     * Used for Schema class instanciation with remote or local schema file.
-     * @param schemaStreamReader
-     * @throws Exception 
+     * Used for Schema class instantiation with remote or local schema file.
+     * @param inStream the `InputStream` to read and parse the Schema from
+     * @throws Exception when reading fails
      */
-    private void initSchemaFromStream(InputStreamReader schemaStreamReader) throws Exception{
-        BufferedReader br = new BufferedReader(schemaStreamReader);
-        String line = br.readLine();
+    private void initSchemaFromStream(InputStream inStream) throws Exception{
+        InputStreamReader inputStreamReader = new InputStreamReader(inStream, Charset.forName("UTF-8"));
+        BufferedReader br = new BufferedReader(inputStreamReader);
 
-        StringBuilder sb = new StringBuilder();
-        while(line != null){
-            sb.append(line);
-            line = br.readLine();
-        }
-
-        String schemaString = sb.toString();
+        String schemaString = br.lines().collect(Collectors.joining("\n"));
         JSONObject schemaJson = new JSONObject(schemaString);
         
         this.initFromSchemaJson(schemaJson);
