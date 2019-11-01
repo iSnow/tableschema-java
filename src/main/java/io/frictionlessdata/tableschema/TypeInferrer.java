@@ -48,24 +48,24 @@ public class TypeInferrer {
     // The order in which the types will be attempted to be inferred.
     // Once a type is successfully inferred, we do not bother with the remaining types.
     private static final List<String[]> TYPE_INFERRAL_ORDER_LIST = new ArrayList<>(Arrays.asList(
-        new String[]{Field.FIELD_TYPE_GEOPOINT, Field.FIELD_FORMAT_DEFAULT},
-        new String[]{Field.FIELD_TYPE_GEOPOINT, Field.FIELD_FORMAT_ARRAY},
-        new String[]{Field.FIELD_TYPE_GEOPOINT, Field.FIELD_FORMAT_OBJECT},
-        new String[]{Field.FIELD_TYPE_DURATION, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_YEAR, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_YEARMONTH, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_DATE, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_TIME, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_DATETIME, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_INTEGER, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_NUMBER, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_BOOLEAN, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_GEOJSON, Field.FIELD_FORMAT_DEFAULT},
-        new String[]{Field.FIELD_TYPE_GEOJSON, Field.FIELD_FORMAT_TOPOJSON},
-        new String[]{Field.FIELD_TYPE_OBJECT, Field.FIELD_FORMAT_DEFAULT},
-        new String[]{Field.FIELD_TYPE_ARRAY, Field.FIELD_FORMAT_DEFAULT},
-        new String[]{Field.FIELD_TYPE_STRING, Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
-        new String[]{Field.FIELD_TYPE_ANY, Field.FIELD_FORMAT_DEFAULT})); // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_GEOPOINT.getLabel(), Field.FIELD_FORMAT_DEFAULT},
+        new String[]{FieldType.FIELD_TYPE_GEOPOINT.getLabel(), Field.FIELD_FORMAT_ARRAY},
+        new String[]{FieldType.FIELD_TYPE_GEOPOINT.getLabel(), Field.FIELD_FORMAT_OBJECT},
+        new String[]{FieldType.FIELD_TYPE_DURATION.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_YEAR.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_YEARMONTH.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_DATE.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_TIME.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_DATETIME.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_INTEGER.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_NUMBER.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_BOOLEAN.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_GEOJSON.getLabel(), Field.FIELD_FORMAT_DEFAULT},
+        new String[]{FieldType.FIELD_TYPE_GEOJSON.getLabel(), Field.FIELD_FORMAT_TOPOJSON},
+        new String[]{FieldType.FIELD_TYPE_OBJECT.getLabel(), Field.FIELD_FORMAT_DEFAULT},
+        new String[]{FieldType.FIELD_TYPE_ARRAY.getLabel(), Field.FIELD_FORMAT_DEFAULT},
+        new String[]{FieldType.FIELD_TYPE_STRING.getLabel(), Field.FIELD_FORMAT_DEFAULT}, // No different formats, just use default.
+        new String[]{FieldType.FIELD_TYPE_ANY.getLabel(), Field.FIELD_FORMAT_DEFAULT})); // No different formats, just use default.
     
     private static final String NUMBER_OPTION_DECIMAL_CHAR = "decimalChar";
     private static final String NUMBER_OPTION_GROUP_CHAR = "groupChar";

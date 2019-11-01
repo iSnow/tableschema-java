@@ -284,7 +284,7 @@ public class Schema {
             for(int i=0; i<row.length; i++){
                 Field field = this.fields.get(i);
 
-                String castMethodName = "cast" + (field.getType().substring(0, 1).toUpperCase() + field.getType().substring(1));;
+                String castMethodName = field.getCastMethodName();
                 Method method = TypeInferrer.class.getMethod(castMethodName, String.class, String.class);
 
                 castRow[i] = method.invoke(TypeInferrer.getInstance(), field.getFormat(), row[i]);

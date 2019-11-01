@@ -33,7 +33,7 @@ public class FieldConstraintsTest {
         Map<String, Object> constraints = new HashMap();
         constraints.put(Field.CONSTRAINT_KEY_REQUIRED, true);
         
-        Field field = new Field("test", Field.FIELD_TYPE_STRING, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_STRING, null, null, null, constraints);
         
         String valueNotNull = field.castValue("This is a string value");
         violatedConstraints = field.checkConstraintViolations(valueNotNull);
@@ -56,7 +56,7 @@ public class FieldConstraintsTest {
         Map<String, Object> constraints = new HashMap();
         constraints.put(Field.CONSTRAINT_KEY_REQUIRED, false);
         
-        Field field = new Field("test", Field.FIELD_TYPE_STRING, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_STRING, null, null, null, constraints);
         
         String valueNotNull = field.castValue("This is a string value");
         violatedConstraints = field.checkConstraintViolations(valueNotNull);
@@ -75,7 +75,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MIN_LENGTH, 36);
         constraints.put(Field.CONSTRAINT_KEY_MAX_LENGTH, 45);
         
-        Field field = new Field("test", Field.FIELD_TYPE_STRING, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_STRING, null, null, null, constraints);
         
         // 40 characters
         String valueLength40 = field.castValue("This string length is between 36 and 45.");
@@ -116,7 +116,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MIN_LENGTH, 2);
         constraints.put(Field.CONSTRAINT_KEY_MAX_LENGTH, 5);
         
-        Field field = new Field("test", Field.FIELD_TYPE_OBJECT, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_OBJECT, null, null, null, constraints);
         
         JSONObject obj = new JSONObject();
         violatedConstraints = field.checkConstraintViolations(obj);
@@ -156,7 +156,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MIN_LENGTH, 2);
         constraints.put(Field.CONSTRAINT_KEY_MAX_LENGTH, 5);
         
-        Field field = new Field("test", Field.FIELD_TYPE_ARRAY, "default", "title", null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_ARRAY, "default", "title", null, constraints);
         
         JSONArray arr = new JSONArray();
         violatedConstraints = field.checkConstraintViolations(arr);
@@ -194,7 +194,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MINIMUM, 2);
         constraints.put(Field.CONSTRAINT_KEY_MAXIMUM, 5);
         
-        Field field = new Field("test", Field.FIELD_TYPE_INTEGER, "default", null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_INTEGER, "default", null, null, constraints);
         
         for(int i=0; i < 7; i++){
             Map<String, Object> violatedConstraints = field.checkConstraintViolations(i);
@@ -230,7 +230,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MINIMUM, dateMin);
         constraints.put(Field.CONSTRAINT_KEY_MAXIMUM, dateMax);
         
-        Field field = new Field("test", Field.FIELD_TYPE_DATE, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_DATE, null, null, null, constraints);
         
         DateTime datetime2017 = formatter.parseDateTime("2017-01-15");
         violatedConstraints = field.checkConstraintViolations(datetime2017);
@@ -285,7 +285,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MINIMUM, timeMin);
         constraints.put(Field.CONSTRAINT_KEY_MAXIMUM, timeMax);
         
-        Field field = new Field("test", Field.FIELD_TYPE_TIME, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_TIME, null, null, null, constraints);
         
         DateTime time = formatter.parseDateTime("13:00:05");
         violatedConstraints = field.checkConstraintViolations(time);
@@ -340,7 +340,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MINIMUM, datetimeMin);
         constraints.put(Field.CONSTRAINT_KEY_MAXIMUM, datetimeMax);
         
-        Field field = new Field("test", Field.FIELD_TYPE_DATETIME, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_DATETIME, null, null, null, constraints);
         
         DateTime datetime2017 = formatter.parseDateTime("2017-01-15T13:44:33.000Z");
         violatedConstraints = field.checkConstraintViolations(datetime2017);
@@ -369,7 +369,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MINIMUM, 1999);
         constraints.put(Field.CONSTRAINT_KEY_MAXIMUM, 2018);
         
-        Field field = new Field("test", Field.FIELD_TYPE_YEAR, "default", "title", "title", constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_YEAR, "default", "title", "title", constraints);
         
         for(int i=1990; i < 2020; i++){
             Map<String, Object> violatedConstraints = field.checkConstraintViolations(i);
@@ -402,7 +402,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MINIMUM, yearmonthMin);
         constraints.put(Field.CONSTRAINT_KEY_MAXIMUM, yearmonthMax);
         
-        Field field = new Field("test", Field.FIELD_TYPE_YEARMONTH, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_YEARMONTH, null, null, null, constraints);
         
         DateTime yearmonth = formatter.parseDateTime("2005-05");
         violatedConstraints = field.checkConstraintViolations(yearmonth);
@@ -448,7 +448,7 @@ public class FieldConstraintsTest {
         constraints.put(Field.CONSTRAINT_KEY_MINIMUM, durationMin);
         constraints.put(Field.CONSTRAINT_KEY_MAXIMUM, durationMax);
         
-        Field field = new Field("test", Field.FIELD_TYPE_DURATION, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_DURATION, null, null, null, constraints);
         
         Duration duration = Duration.parse("P2DT4H4M");
         violatedConstraints = field.checkConstraintViolations(duration);
@@ -478,7 +478,7 @@ public class FieldConstraintsTest {
         Map<String, Object> constraints = new HashMap();
         constraints.put(Field.CONSTRAINT_KEY_PATTERN, "testing[0-9]+");
         
-        Field field = new Field("test", Field.FIELD_TYPE_STRING, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_STRING, null, null, null, constraints);
         
         for(int i=0; i<12; i++){
             violatedConstraints = field.checkConstraintViolations("testing" + i);
@@ -502,7 +502,7 @@ public class FieldConstraintsTest {
         
         constraints.put(Field.CONSTRAINT_KEY_ENUM, enumStrings);
         
-        Field field = new Field("test", Field.FIELD_TYPE_STRING, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_STRING, null, null, null, constraints);
         
         violatedConstraints = field.checkConstraintViolations("one");
         Assert.assertTrue(violatedConstraints.isEmpty());
@@ -530,7 +530,7 @@ public class FieldConstraintsTest {
         
         constraints.put(Field.CONSTRAINT_KEY_ENUM, enumInts);
         
-        Field field = new Field("test", Field.FIELD_TYPE_INTEGER, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_INTEGER, null, null, null, constraints);
         
         violatedConstraints = field.checkConstraintViolations(1);
         Assert.assertTrue(violatedConstraints.isEmpty());
@@ -568,7 +568,7 @@ public class FieldConstraintsTest {
         enumObjs.add(obj3);
         
         constraints.put(Field.CONSTRAINT_KEY_ENUM, enumObjs);
-        Field field = new Field("test", Field.FIELD_TYPE_OBJECT, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_OBJECT, null, null, null, constraints);
         
         violatedConstraints = field.checkConstraintViolations(obj1);
         Assert.assertTrue(violatedConstraints.isEmpty());
@@ -605,7 +605,7 @@ public class FieldConstraintsTest {
         enumArrs.add(arr2);
         
         constraints.put(Field.CONSTRAINT_KEY_ENUM, enumArrs);
-        Field field = new Field("test", Field.FIELD_TYPE_ARRAY, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_ARRAY, null, null, null, constraints);
         
         violatedConstraints = field.checkConstraintViolations(arr1);
         Assert.assertTrue(violatedConstraints.isEmpty());
@@ -636,7 +636,7 @@ public class FieldConstraintsTest {
         enumDurations.add(duration2);
         
         constraints.put(Field.CONSTRAINT_KEY_ENUM, enumDurations);
-        Field field = new Field("test", Field.FIELD_TYPE_DURATION, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_DURATION, null, null, null, constraints);
        
         violatedConstraints = field.checkConstraintViolations(duration1);
         Assert.assertTrue(violatedConstraints.isEmpty());
@@ -665,7 +665,7 @@ public class FieldConstraintsTest {
         enumDatetimes.add(datetime2);
         
         constraints.put(Field.CONSTRAINT_KEY_ENUM, enumDatetimes);
-        Field field = new Field("test", Field.FIELD_TYPE_DATETIME, null, null, null, constraints);
+        Field field = new Field("test", FieldType.FIELD_TYPE_DATETIME, null, null, null, constraints);
         
         violatedConstraints = field.checkConstraintViolations(datetime1);
         Assert.assertTrue(violatedConstraints.isEmpty());

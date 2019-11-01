@@ -2,6 +2,7 @@ package io.frictionlessdata.tableschema;
 
 import io.frictionlessdata.tableschema.exceptions.ConstraintsException;
 import io.frictionlessdata.tableschema.exceptions.InvalidCastException;
+import io.frictionlessdata.tableschema.FieldType;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.HashMap;
@@ -19,21 +20,6 @@ import org.json.JSONObject;
  * 
  */
 public class Field {
-    public static final String FIELD_TYPE_STRING = "string";
-    public static final String FIELD_TYPE_INTEGER = "integer";
-    public static final String FIELD_TYPE_NUMBER = "number";
-    public static final String FIELD_TYPE_BOOLEAN = "boolean";
-    public static final String FIELD_TYPE_OBJECT = "object";
-    public static final String FIELD_TYPE_ARRAY = "array";
-    public static final String FIELD_TYPE_DATE = "date";
-    public static final String FIELD_TYPE_TIME = "time";
-    public static final String FIELD_TYPE_DATETIME = "datetime";
-    public static final String FIELD_TYPE_YEAR = "year";
-    public static final String FIELD_TYPE_YEARMONTH = "yearmonth";
-    public static final String FIELD_TYPE_DURATION = "duration";
-    public static final String FIELD_TYPE_GEOPOINT = "geopoint";
-    public static final String FIELD_TYPE_GEOJSON = "geojson";
-    public static final String FIELD_TYPE_ANY = "any";
     
     public static final String FIELD_FORMAT_DEFAULT = "default";
     public static final String FIELD_FORMAT_ARRAY = "array";
@@ -57,24 +43,24 @@ public class Field {
     public static final String JSON_KEY_CONSTRAINTS = "constraints";
   
     private String name = "";
-    private String type = "";
+    private FieldType type = FieldType.FIELD_TYPE_NONE;
     private String format = FIELD_FORMAT_DEFAULT;
     private String title = "";
     private String description = "";
     private Map<String, Object> constraints = null;
     
-    public Field(String name, String type){
+    public Field(String name, FieldType type){
         this.name = name;
         this.type = type;
     }
     
-    public Field(String name, String type, String format){
+    public Field(String name, FieldType type, String format){
         this.name = name;
         this.type = type;
         this.format = format;
     }
     
-    public Field(String name, String type, String format, String title, String description){
+    public Field(String name, FieldType type, String format, String title, String description){
         this.name = name;
         this.type = type;
         this.format = format;
@@ -82,7 +68,7 @@ public class Field {
         this.description = description;
     }
     
-    public Field(String name, String type, String format, String title, String description, Map constraints){
+    public Field(String name, FieldType type, String format, String title, String description, Map constraints){
         this.name = name;
         this.type = type;
         this.format = format;
@@ -94,7 +80,7 @@ public class Field {
     public Field(JSONObject field){
         //TODO: Maybe use Gson serializer for this instead? Is it worth importing library just for this?      
         this.name = field.has(JSON_KEY_NAME) ? field.getString(JSON_KEY_NAME) : "";
-        this.type = field.has(JSON_KEY_TYPE) ? field.getString(JSON_KEY_TYPE) : "";
+        this.type = field.has(JSON_KEY_TYPE) ? FieldType.byName(field.getString(JSON_KEY_TYPE)) : FieldType.FIELD_TYPE_NONE;
         this.format = field.has(JSON_KEY_FORMAT) ? field.getString(JSON_KEY_FORMAT) : FIELD_FORMAT_DEFAULT;
         this.title = field.has(JSON_KEY_TITLE) ? field.getString(JSON_KEY_TITLE) : "";
         this.description = field.has(JSON_KEY_DESCRIPTION) ? field.getString(JSON_KEY_DESCRIPTION) : "";
@@ -151,12 +137,12 @@ public class Field {
      * @throws ConstraintsException 
      */
     public <Any> Any castValue(String value, boolean enforceConstraints, Map<String, Object> options) throws InvalidCastException, ConstraintsException{
-        if(this.type.isEmpty()){
+        if(FieldType.isEmpty(this.type)){
             throw new InvalidCastException();
         }else{
             try{
                 // Using reflection to invoke appropriate type casting method from the TypeInferrer class
-                String castMethodName = "cast" + (this.type.substring(0, 1).toUpperCase() + this.type.substring(1));
+                String castMethodName = getCastMethodName();
                 Method method = TypeInferrer.class.getMethod(castMethodName, String.class, String.class, Map.class);
                 Object castValue = method.invoke(TypeInferrer.getInstance(), this.format, value, options);
             
@@ -414,13 +400,21 @@ public class Field {
         
         return json;
     }
+
+    public String getCastMethodName() {
+        return "cast" + (this.type.getLabel().substring(0, 1).toUpperCase() + this.type.getLabel().substring(1));
+    }
     
     public String getName(){
         return this.name;
     }
     
-    public String getType(){
+    public FieldType getType(){
         return this.type;
+    }
+
+    public String getTypeLabel(){
+        return this.type.getLabel();
     }
     
     public String getFormat(){

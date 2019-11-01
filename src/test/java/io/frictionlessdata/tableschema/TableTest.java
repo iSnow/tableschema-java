@@ -356,25 +356,25 @@ public class TableTest {
     private Schema getEmployeeTableSchema(){
         Schema schema = new Schema();
         
-        Field idField = new Field("id", Field.FIELD_TYPE_INTEGER);
+        Field idField = new Field("id", FieldType.FIELD_TYPE_INTEGER);
         schema.addField(idField);
         
-        Field nameField = new Field("name", Field.FIELD_TYPE_STRING);
+        Field nameField = new Field("name", FieldType.FIELD_TYPE_STRING);
         schema.addField(nameField);
         
-        Field dobField = new Field("dateOfBirth", Field.FIELD_TYPE_DATE); 
+        Field dobField = new Field("dateOfBirth", FieldType.FIELD_TYPE_DATE);
         schema.addField(dobField);
         
-        Field isAdminField = new Field("isAdmin", Field.FIELD_TYPE_BOOLEAN);
+        Field isAdminField = new Field("isAdmin", FieldType.FIELD_TYPE_BOOLEAN);
         schema.addField(isAdminField);
         
-        Field addressCoordinatesField = new Field("addressCoordinatesField", Field.FIELD_TYPE_GEOPOINT, Field.FIELD_FORMAT_OBJECT);
+        Field addressCoordinatesField = new Field("addressCoordinatesField", FieldType.FIELD_TYPE_GEOPOINT, Field.FIELD_FORMAT_OBJECT);
         schema.addField(addressCoordinatesField);
 
-        Field contractLengthField = new Field("contractLength", Field.FIELD_TYPE_DURATION);
+        Field contractLengthField = new Field("contractLength", FieldType.FIELD_TYPE_DURATION);
         schema.addField(contractLengthField);
         
-        Field infoField = new Field("info", Field.FIELD_TYPE_OBJECT);
+        Field infoField = new Field("info", FieldType.FIELD_TYPE_OBJECT);
         schema.addField(infoField);
         
         return schema;
