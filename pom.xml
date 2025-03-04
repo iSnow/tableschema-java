@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.frictionlessdata</groupId>
     <artifactId>tableschema-java-isnow</artifactId>
-    <version>0.6.17-SNAPSHOT</version>
+    <version>0.6.18-SNAPSHOT</version>
     <packaging>jar</packaging>
     <issueManagement>
         <url>https://github.com/frictionlessdata/tableschema-java/issues</url>
@@ -20,6 +20,7 @@
         <java.version>8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.compiler>17</maven.compiler.compiler>
         <google-guava.version>33.4.0-jre</google-guava.version>
         <apache-commons-lang3.version>3.17.0</apache-commons-lang3.version>
         <apache-commons-csv.version>1.13.0</apache-commons-csv.version>
@@ -27,18 +28,17 @@
         <geotools.version>32.2</geotools.version>
         <jackson.version>2.18.3</jackson.version>
         <junit.version>5.12.0</junit.version>
-        <locationtech-jts.version>1.19.0</locationtech-jts.version>
-        <networknt-validator-version>1.0.76</networknt-validator-version>
+        <locationtech-jts.version>1.20.0</locationtech-jts.version>
+        <networknt-validator-version>1.5.6</networknt-validator-version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
-        <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
         <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-        <maven-release-plugin.version>3.0.0-M7</maven-release-plugin.version>
+        <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-        <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
         <dependency-check-maven.version>12.1.0</dependency-check-maven.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
     </properties>
@@ -62,6 +62,7 @@
                     <encoding>UTF-8</encoding>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <compilerVersion>${maven.compiler.compiler}</compilerVersion>
                 </configuration>
             </plugin>
 
@@ -176,15 +177,6 @@
                         <version>1.9.4</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            -->
-
-            <!-- Test Coverage: https://github.com/trautonen/coveralls-maven-plugin -->
-            <!--
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>${coveralls-maven-plugin.version}</version>
             </plugin>
             -->
 
